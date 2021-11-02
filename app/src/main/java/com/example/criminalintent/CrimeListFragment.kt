@@ -1,6 +1,7 @@
 package com.example.criminalintent
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +14,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+private const val TAG = "hhh"
+
 class CrimeListFragment : Fragment() {
 
     private lateinit var crimeRecyclerView: RecyclerView
 
-    val crimeListViewModel
+    private val crimeListViewModel
     by lazy { ViewModelProvider(this)
         .get(CrimeListViewModel::class.java) }
 
@@ -40,7 +43,9 @@ class CrimeListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         crimeListViewModel.liveDataCrimes.observe(
             viewLifecycleOwner, Observer {
+                Log.d("hhh",it.size.toString())
                 updateUI(it)
+                Log.d("hhh",it.size.toString())
             }
         )
 

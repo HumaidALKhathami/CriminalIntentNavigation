@@ -36,6 +36,8 @@ class CrimeRepository private constructor(context: Context){
 
         }
 
+
+
         fun get() :CrimeRepository{
             return INSTANCE ?:
             throw IllegalStateException("CrimeRepository must be initialized ")
