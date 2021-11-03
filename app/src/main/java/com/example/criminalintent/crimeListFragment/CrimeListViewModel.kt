@@ -1,4 +1,4 @@
-package com.example.criminalintent
+package com.example.criminalintent.crimeListFragment
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

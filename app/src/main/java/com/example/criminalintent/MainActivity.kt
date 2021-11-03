@@ -3,6 +3,7 @@ package com.example.criminalintent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.example.criminalintent.crimeListFragment.CrimeListFragment
 
 class MainActivity : AppCompatActivity() {
 

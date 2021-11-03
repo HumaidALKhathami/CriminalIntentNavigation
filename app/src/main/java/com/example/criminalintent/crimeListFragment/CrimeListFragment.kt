@@ -1,4 +1,4 @@
-package com.example.criminalintent
+package com.example.criminalintent.crimeListFragment
 
 import android.os.Bundle
 import android.util.Log
@@ -13,8 +13,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.criminalintent.database.Crime
+import com.example.criminalintent.crimeFragment.CrimeFragment
+import com.example.criminalintent.R
 
 private const val TAG = "hhh"
+
+const val KEY_ID = "myCrimeId"
 
 class CrimeListFragment : Fragment() {
 
@@ -67,11 +72,10 @@ class CrimeListFragment : Fragment() {
 
 
            init {
-               titleTextView.setOnClickListener(this)
-               dateTextView.setOnClickListener(this)
+               itemView.setOnClickListener(this)
 
            }
-            fun bind(crime:Crime){
+            fun bind(crime: Crime){
                this.crime = crime
                 titleTextView.text = crime.title
                 dateTextView.text = crime.date.toString()
@@ -84,8 +88,23 @@ class CrimeListFragment : Fragment() {
             }
 
         override fun onClick(p0: View?) {
-            if (p0 == titleTextView ){
-                Toast.makeText(context , "the title is ${crime.title}",Toast.LENGTH_LONG).show()
+            if (p0 == itemView ){
+
+                val args = Bundle()
+                    args.putSerializable(KEY_ID , crime.id)
+
+                val fragment = CrimeFragment()
+
+                fragment.arguments = args
+
+                activity?.let {
+                    it.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container,fragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
+
             }else if(p0 == dateTextView){
                 Toast.makeText(context , "the title is ${crime.date}",Toast.LENGTH_LONG).show()
             }
