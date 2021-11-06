@@ -19,7 +19,7 @@ class CrimeRepository private constructor(context: Context){
 
     private val crimeDao = database.crimeDao()
 
-    private val executer = Executors.newSingleThreadExecutor()
+    private val executor = Executors.newSingleThreadExecutor()
 
     fun getAllCrimes():LiveData< List<Crime>>  = crimeDao.getAllCrimes()
 
@@ -29,8 +29,14 @@ class CrimeRepository private constructor(context: Context){
     }
 
     fun updateCrime(crime: Crime){
-        executer.execute{
+        executor.execute{
             crimeDao.updateCrime(crime)
+        }
+    }
+
+    fun addCrime(crime: Crime){
+        executor.execute {
+            crimeDao.addCrime(crime)
         }
     }
 

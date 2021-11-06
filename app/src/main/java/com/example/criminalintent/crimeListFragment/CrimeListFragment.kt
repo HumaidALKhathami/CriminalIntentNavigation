@@ -2,9 +2,7 @@ package com.example.criminalintent.crimeListFragment
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -30,6 +28,49 @@ class CrimeListFragment : Fragment() {
         .get(CrimeListViewModel::class.java) }
 
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+
+        inflater.inflate(R.menu.fragment_list_menu,menu)
+
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setHasOptionsMenu(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId){
+
+            R.id.new_crime -> {
+
+                val crime = Crime()
+                crimeListViewModel.addCrime(crime)
+
+                val args = Bundle()
+                args.putSerializable(KEY_ID,crime.id)
+
+                val fragment = CrimeFragment()
+
+                fragment.arguments = args
+
+                activity?.let {
+                    it.supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.fragment_container,fragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
+
+                true
+            }else -> return super.onOptionsItemSelected(item)
+        }
+
+
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
