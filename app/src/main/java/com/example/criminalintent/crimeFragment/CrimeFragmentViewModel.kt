@@ -26,4 +26,6 @@ class CrimeFragmentViewModel : ViewModel() {
         crimeRepository.updateCrime(crime)
     }
 
+
+
 }
