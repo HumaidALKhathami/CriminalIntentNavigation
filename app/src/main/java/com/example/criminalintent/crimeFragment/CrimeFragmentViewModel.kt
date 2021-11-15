@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.criminalintent.database.Crime
 import com.example.criminalintent.database.CrimeRepository
+import java.io.File
 import java.util.*
 
 class CrimeFragmentViewModel : ViewModel() {
@@ -22,10 +23,10 @@ class CrimeFragmentViewModel : ViewModel() {
         crimeIdLiveData.value = crimeId
     }
 
-    fun saveUpdates (crime: Crime){
-        crimeRepository.updateCrime(crime)
-    }
+    fun saveUpdates (crime: Crime) = crimeRepository.updateCrime(crime)
 
 
+
+    fun getPhotoFile(crime: Crime):File = crimeRepository.getPhotoFile(crime)
 
 }

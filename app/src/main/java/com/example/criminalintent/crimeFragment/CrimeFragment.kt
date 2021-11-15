@@ -2,7 +2,11 @@ package com.example.criminalintent.crimeFragment
 
 import android.app.Activity
 import android.content.Intent
+import android.Manifest
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.icu.text.MessageFormat.format
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.text.Editable
@@ -12,16 +16,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.criminalintent.DatePickerDialogFragment
 import com.example.criminalintent.database.Crime
 import com.example.criminalintent.R
 import com.example.criminalintent.crimeListFragment.KEY_ID
+import com.example.criminalintent.utils.getScaledBitmap
+import java.io.File
 import java.lang.String.format
 import java.text.DateFormat
 import java.text.MessageFormat.format
@@ -30,15 +36,20 @@ import java.util.*
 const val CRIME_DATE_KEY = "crimeDate"
 const val REQUEST_CONTACT = 1
 
-class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack{
+class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack {
 
     private lateinit var titleEditText: EditText
-    private lateinit var dateBtn:Button
+    private lateinit var dateBtn: Button
     private lateinit var isSolvedCheckBox: CheckBox
     private lateinit var reportBtn: Button
     private lateinit var suspectBtn: Button
+    private lateinit var photoButton: ImageButton
+    private lateinit var photoView: ImageView
 
     private lateinit var crime: Crime
+
+    private lateinit var photoFile: File
+    private lateinit var photoUri: Uri
 
     private val fragmentViewModel by lazy { ViewModelProvider(this).get(CrimeFragmentViewModel::class.java) }
 
@@ -47,7 +58,7 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack{
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_crime,container,false)
+        val view = inflater.inflate(R.layout.fragment_crime, container, false)
         initialize(view)
 
         dateBtn.apply {
@@ -65,11 +76,43 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack{
         isSolvedCheckBox = view.findViewById(R.id.crime_solved)
         reportBtn = view.findViewById(R.id.crime_report)
         suspectBtn = view.findViewById(R.id.crime_suspect)
+        photoButton = view.findViewById(R.id.photoButton)
+        photoView = view.findViewById(R.id.photoView)
     }
 
+    private val getResult = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+
+    }
+
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
+        }
 
     override fun onStart() {
         super.onStart()
+
+        photoButton.setOnClickListener {
+
+
+
+
+            when (PackageManager.PERMISSION_GRANTED) {
+                context?.let {
+                    ContextCompat.checkSelfPermission(
+                        it, Manifest.permission.CAMERA
+                    )
+                } -> {
+                    getResult.launch(photoUri)
+                }
+
+                else -> {
+                    requestPermission.launch(Manifest.permission.CAMERA)
+                }
+            }
+        }
+
+
 
         dateBtn.setOnClickListener{
 
@@ -131,6 +174,18 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack{
        }
     }
 
+    private fun updatePhotoView() {
+        if (photoFile.exists()){
+
+            val bitMap = getScaledBitmap(photoFile.path,requireActivity())
+
+//            val bitMap2 = BitmapFactory.decodeFile(photoFile.path)
+            photoView.setImageBitmap(bitMap)
+        }else {
+            photoView.setImageDrawable(null)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         crime = Crime()
@@ -148,6 +203,12 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack{
             viewLifecycleOwner, androidx.lifecycle.Observer {
                 it?.let {
                     crime = it
+
+                    photoFile = fragmentViewModel.getPhotoFile(it)
+                    photoUri = FileProvider.getUriForFile(requireActivity(), "com.example.criminalintent" , photoFile)
+
+                    updatePhotoView()
+
                     titleEditText.setText(it.title)
                     dateBtn.text = it.date.toString()
                     isSolvedCheckBox.isChecked = it.isSolved
