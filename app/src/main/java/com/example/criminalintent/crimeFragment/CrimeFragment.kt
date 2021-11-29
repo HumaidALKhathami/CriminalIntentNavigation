@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.example.criminalintent.DatePickerDialogFragment
 import com.example.criminalintent.database.Crime
 import com.example.criminalintent.R
@@ -52,6 +53,8 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack {
     private lateinit var photoUri: Uri
 
     private val fragmentViewModel by lazy { ViewModelProvider(this).get(CrimeFragmentViewModel::class.java) }
+
+    private val args: CrimeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -190,7 +193,9 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack {
         super.onCreate(savedInstanceState)
         crime = Crime()
 
-        val crimeId = arguments?.getSerializable(KEY_ID) as UUID
+//        val crimeId = arguments?.getSerializable(KEY_ID) as UUID
+
+        val crimeId = args.crimeId
 
         fragmentViewModel.loadCrime(crimeId)
 

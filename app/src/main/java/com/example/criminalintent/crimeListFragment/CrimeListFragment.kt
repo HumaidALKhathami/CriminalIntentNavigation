@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.criminalintent.database.Crime
@@ -45,24 +46,24 @@ class CrimeListFragment : Fragment() {
         return when (item.itemId){
 
             R.id.new_crime -> {
-
-                val crime = Crime()
-                crimeListViewModel.addCrime(crime)
-
-                val args = Bundle()
-                args.putSerializable(KEY_ID,crime.id)
-
-                val fragment = CrimeFragment()
-
-                fragment.arguments = args
-
-                activity?.let {
-                    it.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.fragment_container,fragment)
-                        .addToBackStack(null)
-                        .commit()
-                }
+//
+//                val crime = Crime()
+//                crimeListViewModel.addCrime(crime)
+//
+//                val args = Bundle()
+//                args.putSerializable(KEY_ID,crime.id)
+//
+//                val fragment = CrimeFragment()
+//
+//                fragment.arguments = args
+//
+//                activity?.let {
+//                    it.supportFragmentManager
+//                        .beginTransaction()
+//                        .replace(R.id.fragment_container,fragment)
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
 
                 true
             }else -> return super.onOptionsItemSelected(item)
@@ -131,20 +132,26 @@ class CrimeListFragment : Fragment() {
         override fun onClick(p0: View?) {
             if (p0 == itemView ){
 
-                val args = Bundle()
-                    args.putSerializable(KEY_ID , crime.id)
+                val navController = findNavController()
 
-                val fragment = CrimeFragment()
+                val action = CrimeListFragmentDirections.actionCrimeListFragmentToCrimeFragment(crime.id)
 
-                fragment.arguments = args
+                navController.navigate(action)
 
-                activity?.let {
-                    it.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.fragment_container,fragment)
-                        .addToBackStack(null)
-                        .commit()
-                }
+//                val args = Bundle()
+//                    args.putSerializable(KEY_ID , crime.id)
+//
+//                val fragment = CrimeFragment()
+//
+//                fragment.arguments = args
+//
+//                activity?.let {
+//                    it.supportFragmentManager
+//                        .beginTransaction()
+//                        .replace(R.id.fragment_container,fragment)
+//                        .addToBackStack(null)
+//                        .commit()
+//                }
 
             }else if(p0 == dateTextView){
                 Toast.makeText(context , "the title is ${crime.date}",Toast.LENGTH_LONG).show()
