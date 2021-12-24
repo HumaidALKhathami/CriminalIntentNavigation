@@ -137,7 +137,7 @@ class CrimeListFragment : Fragment() {
                 val action = CrimeListFragmentDirections.actionCrimeListFragmentToCrimeFragment(crime.id)
 
                 navController.navigate(action)
-
+//
 //                val args = Bundle()
 //                    args.putSerializable(KEY_ID , crime.id)
 //

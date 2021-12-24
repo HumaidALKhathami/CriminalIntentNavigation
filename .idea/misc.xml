@@ -4,6 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.30520833333333336" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/CriminalIntentT/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/CriminalIntentT/app/src/main/res/layout/fragment_crime.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/CriminalIntentT/app/src/main/res/layout/fragment_crime_list.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/CriminalIntentT/app/src/main/res/layout/list_item_crime.xml" value="0.5208333333333334" />
         <entry key="..\:/Users/oQ7nt/AndroidStudioProjects/CriminalIntentT/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/oQ7nt/AndroidStudioProjects/CriminalIntentT/app/src/main/res/layout/fragment_crime.xml" value="0.2646239554317549" />
         <entry key="..\:/Users/oQ7nt/AndroidStudioProjects/CriminalIntentT/app/src/main/res/layout/fragment_crime_list.xml" value="0.36102564102564105" />

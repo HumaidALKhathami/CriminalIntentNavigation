@@ -64,11 +64,11 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack {
         val view = inflater.inflate(R.layout.fragment_crime, container, false)
         initialize(view)
 
-        dateBtn.apply {
+        dateBtn.text = crime.date.toString()
 
-            text = crime.date.toString()
 
-        }
+
+
 
         return view
     }
@@ -144,7 +144,10 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack {
             Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, getCrimeReport())
-                putExtra(Intent.EXTRA_SUBJECT, " CriminalIntent Crime Report")
+                putExtra(
+                    Intent.EXTRA_SUBJECT,
+                    " CriminalIntent Crime Report"
+                )
             }.also {
                 val chooserIntent =
                     Intent.createChooser(it,"send_report")
@@ -152,17 +155,20 @@ class CrimeFragment : Fragment() , DatePickerDialogFragment.DatePickerCallBack {
             }
         }
 
+
         val textWatcher = object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                Log.d("ANAS1" , p0.toString())
                 // i will do nothing
             }
 
             override fun onTextChanged(sssss: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Log.d("ANAS", sssss.toString())
+                Log.d("ANAS2", sssss.toString())
                 crime.title = sssss.toString()
             }
 
             override fun afterTextChanged(p0: Editable?) {
+                Log.d("ANAS3" , p0.toString())
                 // i will do nothing
             }
 

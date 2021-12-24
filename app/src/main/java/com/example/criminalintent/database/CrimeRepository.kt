@@ -3,6 +3,7 @@ package com.example.criminalintent.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
+
 import java.io.File
 import java.lang.IllegalStateException
 import java.util.*
@@ -24,7 +25,7 @@ class CrimeRepository private constructor(context: Context){
     private val executor = Executors.newSingleThreadExecutor()
     private val filesDir = context.applicationContext.filesDir
 
-    fun getAllCrimes():LiveData< List<Crime>>  = crimeDao.getAllCrimes()
+    fun getAllCrimes(): LiveData<List<Crime>> = crimeDao.getAllCrimes()
 
     fun getPhotoFile(crime: Crime):File = File(filesDir,crime.photoFileName)
 
@@ -46,7 +47,7 @@ class CrimeRepository private constructor(context: Context){
     }
 
     companion object{
-        var INSTANCE:CrimeRepository? = null
+        private var INSTANCE:CrimeRepository? = null
 
         fun initialize(context: Context){
             if (INSTANCE == null){
